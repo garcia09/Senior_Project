@@ -23,9 +23,9 @@ public class MQTT_MANAGER extends AppCompatActivity {
 
     ActivityMainBinding binding;
 
-    private static final String CUSTOMER_SPECIFIC_IOT_ENDPOINT = "ap9bgs3gweked-ats.iot.us-west-1.amazonaws.com";
+    private static final String CUSTOMER_SPECIFIC_IOT_ENDPOINT = "";
 
-    private static final String COGNITO_POOL_ID = "us-west-1:4c05e995-41b5-45c8-8758-21edc190a1ce";
+    private static final String COGNITO_POOL_ID = "";
 
     private static final Regions MY_REGION = Regions.US_WEST_1;
 
