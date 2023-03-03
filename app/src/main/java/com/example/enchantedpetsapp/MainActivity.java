@@ -1,46 +1,18 @@
 package com.example.enchantedpetsapp;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Window;
-import android.widget.Button;
+import android.view.View;
 
-import com.amazonaws.auth.CognitoCachingCredentialsProvider;
-import com.amazonaws.mobileconnectors.iot.AWSIotMqttClientStatusCallback;
-import com.amazonaws.mobileconnectors.iot.AWSIotMqttManager;
-import com.amazonaws.mobileconnectors.iot.AWSIotMqttNewMessageCallback;
-import com.amazonaws.mobileconnectors.iot.AWSIotMqttQos;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.iot.client.AWSIotException;
-import com.amazonaws.services.iot.client.AWSIotMqttClient;
 import com.example.enchantedpetsapp.databinding.ActivityMainBinding;
-
-import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
-
-    private static final String CUSTOMER_SPECIFIC_IOT_ENDPOINT = "ap9bgs3gweked-ats.iot.us-west-1.amazonaws.com";
-
-    private static final String COGNITO_POOL_ID = "us-west-1:4c05e995-41b5-45c8-8758-21edc190a1ce";
-
-    private static final Regions MY_REGION = Regions.US_WEST_1;
-
-    Button buttonDispense;
-    Button buttonInteract;
-    Button buttonSnap;
-    Button buttonVoice;
-
-    AWSIotMqttManager mqttManager;
-    String clientId;
-    CognitoCachingCredentialsProvider credentialsProvider;
-
+    Connector connector;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -60,16 +32,16 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.Settings:
                     replaceFragment(new SettingsFragment());
                     break;
+                case R.id.Bluetooth:
+                    replaceFragment(new BluetoothFragmentBKUP());
+                    break;
             }
             return true;
         });
-
-
-
-
-
+        connector = new Connector(this.getApplicationContext());
+        connector.connect();
+        connector.subscribeMotion();
     }
-
 
     private void replaceFragment(Fragment fragment){
         FragmentManager fragmentManger = getSupportFragmentManager();
@@ -78,5 +50,15 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    public void dispense(View view) {
+        connector.publishDispense();
+    }
+    public void interact(View view) {
+        connector.publishInteract();
+    }
+    public void snap(View view) {
+        connector.publishSnap();
+    }
+    public void voice(View view) {connector.publishVoice();}
 
 }
